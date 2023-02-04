@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'home_page.dart';
+import '../constants/constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFF064635),
+        backgroundColor: Constant.primaryColor,
         body: Column(
           children: [
             Padding(
@@ -39,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Text(
                 "Paddy Leaf Disease Detection",
                 style: GoogleFonts.poppins(
-                  color: const Color(0xFFF0BB62),
+                  color: Constant.secondaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
