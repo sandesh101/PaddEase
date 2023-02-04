@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'home_page.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -16,7 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 2), () {
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: ((context) => HomePage())));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: ((context) => const HomePage())));
     });
   }
 
