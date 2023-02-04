@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -14,9 +15,13 @@ class SplashScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 100.0),
               child: Image.asset('assets/SplashScreen.png'),
             ),
-            const Text(
-              "Paddy Leaf Disease Detection System",
-              style: TextStyle(color: Color(0xFFF0BB62)),
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text(
+                "Paddy Leaf Disease Detection",
+                style: GoogleFonts.poppins(
+                    color: const Color(0xFFF0BB62), fontSize: 20),
+              ),
             ),
           ],
         ),
