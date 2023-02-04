@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:paddy_disease/constants/constant.dart';
+import 'package:paddy_disease/widgets/buttons.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,8 +15,33 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(),
+        backgroundColor: Constant.primaryColor,
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 250.0),
+            child: Column(
+              children: [
+                Text(
+                  "Upload Picture of your paddy Leaf",
+                  style: GoogleFonts.poppins(
+                      color: Constant.secondaryColor, fontSize: 20),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 150.0),
+                  child: Buttons(
+                    buttonText: "Upload Photo",
+                    onPressed: printText,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
+}
+
+printText() {
+  print("Hello");
 }
