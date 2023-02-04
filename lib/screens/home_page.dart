@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:paddy_disease/constants/constant.dart';
 import 'package:paddy_disease/widgets/buttons.dart';
 
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(top: 150.0),
                   child: Buttons(
                     buttonText: "Upload Photo",
-                    onPressed: printText,
+                    onPressed: pickImage,
                   ),
                 )
               ],
@@ -42,6 +43,9 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-printText() {
-  print("Hello");
+pickImage() async {
+  // print("Hello");
+  final XFile? pickedImage =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+  print(pickedImage);
 }
