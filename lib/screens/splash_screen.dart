@@ -1,8 +1,24 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(const Duration(seconds: 2), () {
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: ((context) => HomePage())));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +36,10 @@ class SplashScreen extends StatelessWidget {
               child: Text(
                 "Paddy Leaf Disease Detection",
                 style: GoogleFonts.poppins(
-                    color: const Color(0xFFF0BB62), fontSize: 20),
+                  color: const Color(0xFFF0BB62),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
