@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paddy_disease/constants/constant.dart';
 import 'package:paddy_disease/widgets/buttons.dart';
 import 'package:cross_file_image/cross_file_image.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,7 +39,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: Image(image: XFileImage(pickedImage!)),
+                            child: Image.file(
+                              File(pickedImage!.path).absolute,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         )
                       : Column(
@@ -75,6 +81,7 @@ class _HomePageState extends State<HomePage> {
                     ? Buttons(
                         buttonText: "Submit Image",
                         onPressed: () {
+                          uploadImage();
                           setState(() {
                             isPickedImage = false;
                           });
@@ -104,5 +111,31 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       isPickedImage = true;
     });
+  }
+
+  uploadImage() async {
+    // print("Hello");
+    var stream = http.ByteStream(pickedImage!.openRead());
+    stream.cast();
+
+    var length = await pickedImage!.length();
+
+    var uri = Uri.parse("https://fakestoreapi.com/products");
+
+    var request = http.MultipartRequest("POST", uri);
+
+    var multipart = http.MultipartFile("image", stream, length);
+
+    request.files.add(multipart);
+
+    var response = await request.send();
+    print(response.toString());
+    // print(response.stream)
+
+    if (response.statusCode == 200) {
+      print("Image Uploaded");
+    } else {
+      print("Failed to upload");
+    }
   }
 }
