@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: const EdgeInsets.only(top: 150.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   child: isPickedImage
@@ -129,11 +130,12 @@ class _HomePageState extends State<HomePage> {
     request.files.add(multipart);
 
     var response = await request.send();
-    print(response.toString());
-    // print(response.stream)
 
     if (response.statusCode == 200) {
-      print("Image Uploaded");
+      final responseData = await response.stream.toBytes();
+      final responseString = String.fromCharCodes(responseData);
+      print(responseString);
+      return responseString;
     } else {
       print("Failed to upload");
     }
