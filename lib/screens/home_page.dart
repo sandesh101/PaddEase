@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paddy_disease/constants/constant.dart';
+import 'package:paddy_disease/screens/disease_screen.dart';
 import 'package:paddy_disease/widgets/buttons.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isPickedImage = false;
   XFile? pickedImage;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -81,8 +85,16 @@ class _HomePageState extends State<HomePage> {
                 isPickedImage
                     ? Buttons(
                         buttonText: "Submit Image",
-                        onPressed: () {
+                        onPressed: () async {
                           uploadImage();
+                          // final bytes = await pickedImage!.readAsBytes();
+                          // final base64Image = base64Encode(bytes);
+                          final imagePath = pickedImage!.path;
+                          print(imagePath);
+                          Get.to(
+                            () => const ResultScreen(),
+                            arguments: {'image': imagePath},
+                          );
                           setState(() {
                             isPickedImage = false;
                           });
