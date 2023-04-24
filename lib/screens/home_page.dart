@@ -10,6 +10,7 @@ import 'package:paddy_disease/screens/disease_screen.dart';
 import 'package:paddy_disease/widgets/buttons.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -86,17 +87,18 @@ class _HomePageState extends State<HomePage> {
                     ? Buttons(
                         buttonText: "Submit Image",
                         onPressed: () async {
-                          final int? id = await uploadImage();
-                          final imagePath = pickedImage!.path;
-                          print(imagePath);
-                          print("Uploaded Image: $id");
-                          Get.to(
-                            () => const ResultScreen(),
-                            arguments: {
-                              'image': imagePath,
-                              'id': id,
-                            },
-                          );
+                          uploadImage();
+                          // final int? id = await uploadImage();
+                          // final imagePath = pickedImage!.path;
+                          // print(imagePath);
+                          // print("Uploaded Image: $id");
+                          // Get.to(
+                          //   () => const ResultScreen(),
+                          //   arguments: {
+                          //     'image': imagePath,
+                          //     'id': id,
+                          //   },
+                          // );
                           setState(() {
                             isPickedImage = false;
                           });
@@ -154,29 +156,64 @@ class _HomePageState extends State<HomePage> {
   //   }
   // }
 
+  // Future<int?> uploadImage() async {
+  //   var stream = http.ByteStream(pickedImage!.openRead());
+  //   stream.cast();
+
+  //   var length = await pickedImage!.length();
+  //   String url = "http://192.168.146.199:5500/predict";
+
+  //   var uri = Uri.parse(url);
+
+  //   var request = http.MultipartRequest("POST", uri);
+
+  //   var multipart = http.MultipartFile("file", stream, length);
+
+  //   request.files.add(multipart);
+
+  //   var response = await request.send();
+  //   print(response.statusCode);
+  //   if (response.statusCode == 200) {
+  //     final responseData = await response.stream.toBytes();
+  //     final responseString = String.fromCharCodes(responseData);
+  //     final responseMap = jsonDecode(responseString) as Map<String, dynamic>;
+  //     print(responseMap);
+  //     // final id = responseMap['id'] as int?;
+  //     // print("id: $id");
+  //     // return id;
+  //   } else {
+  //     print("Failed to upload");
+  //     return null;
+  //   }
+  // }
   Future<int?> uploadImage() async {
     var stream = http.ByteStream(pickedImage!.openRead());
     stream.cast();
 
     var length = await pickedImage!.length();
+    String url = "http://192.168.202.199:5500/predict";
 
-    var uri = Uri.parse("https://fakestoreapi.com/products");
+    var uri = Uri.parse(url);
 
     var request = http.MultipartRequest("POST", uri);
 
-    var multipart = http.MultipartFile("image", stream, length);
+    var multipart = http.MultipartFile("file", stream, length,
+        filename: basename(pickedImage!.path));
 
     request.files.add(multipart);
 
-    var response = await request.send();
+    request.headers.addAll({"Content-Type": "multipart/form-data"});
 
+    var response = await request.send();
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseData = await response.stream.toBytes();
       final responseString = String.fromCharCodes(responseData);
       final responseMap = jsonDecode(responseString) as Map<String, dynamic>;
-      final id = responseMap['id'] as int?;
-      print("id: $id");
-      return id;
+      print(responseMap);
+      // final id = responseMap['id'] as int?;
+      // print("id: $id");
+      // return id;
     } else {
       print("Failed to upload");
       return null;
