@@ -18,18 +18,21 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   // final bytes = base64Decode(image);
   late String imagePath;
-  late int id;
+  late String disease;
+
+  //Init state to call or get the arguments passed from the home page
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     final args = Get.arguments;
-    print(args);
+    // print(args);
     imagePath = args['image'];
-    id = args['id'];
+    disease = args['predicted_class'];
     // getDiseaseName(); // Call the async function to retrieve the disease name.
-    print("Disease Screen: $imagePath");
-    print("Disease Screen: $id");
+    // print("Disease Screen: $imagePath");
+    // print("Disease Screen: $disease");
+    // print(disease.toUpperCase());
   }
 
   // Future<void> getDiseaseName() async {
@@ -51,9 +54,12 @@ class _ResultScreenState extends State<ResultScreen> {
             children: [
               IconButton(
                   onPressed: () {
-                    Get.to(() => HomePage());
+                    Get.to(() => const HomePage());
                   },
-                  icon: Icon(Icons.home)),
+                  icon: const Icon(
+                    Icons.home,
+                    color: Colors.white,
+                  )),
               Container(
                 height: 300,
                 width: 300,
@@ -69,12 +75,18 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                 ),
               ),
-              Text(
-                "Your plant with id = $id have THIS Disease",
-                // "Your plant have THIS Disease",
-                style: GoogleFonts.poppins(
-                    color: Constant.secondaryColor, fontSize: 20),
-              ),
+              disease == "Healthy"
+                  ? Text(
+                      "Your Plant is HEALTHY.",
+                      style: GoogleFonts.poppins(
+                          color: Constant.secondaryColor, fontSize: 20),
+                    )
+                  : Text(
+                      "Your plant have ${disease.toUpperCase()} disease.",
+                      // "Your plant have THIS Disease",
+                      style: GoogleFonts.poppins(
+                          color: Constant.secondaryColor, fontSize: 20),
+                    ),
             ],
           )),
     );

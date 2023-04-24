@@ -87,18 +87,18 @@ class _HomePageState extends State<HomePage> {
                     ? Buttons(
                         buttonText: "Submit Image",
                         onPressed: () async {
-                          uploadImage();
-                          // final int? id = await uploadImage();
-                          // final imagePath = pickedImage!.path;
+                          // uploadImage();
+                          final String? diseaseName = await uploadImage();
+                          final imagePath = pickedImage!.path;
                           // print(imagePath);
                           // print("Uploaded Image: $id");
-                          // Get.to(
-                          //   () => const ResultScreen(),
-                          //   arguments: {
-                          //     'image': imagePath,
-                          //     'id': id,
-                          //   },
-                          // );
+                          Get.to(
+                            () => const ResultScreen(),
+                            arguments: {
+                              'image': imagePath,
+                              'predicted_class': diseaseName,
+                            },
+                          );
                           setState(() {
                             isPickedImage = false;
                           });
@@ -112,6 +112,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //Method to pick image from the gallery
   pickImage() async {
     // print("Hello");
     pickedImage = (await ImagePicker().pickImage(source: ImageSource.gallery))!;
@@ -121,6 +122,7 @@ class _HomePageState extends State<HomePage> {
     // print(pickedImage);
   }
 
+  //Method to take photo using camera
   takeImage() async {
     // print("Hello");
     pickedImage = (await ImagePicker().pickImage(source: ImageSource.camera))!;
@@ -186,12 +188,15 @@ class _HomePageState extends State<HomePage> {
   //     return null;
   //   }
   // }
-  Future<int?> uploadImage() async {
+
+  //Method to pass image to server and get the disease
+  Future<String?> uploadImage() async {
     var stream = http.ByteStream(pickedImage!.openRead());
     stream.cast();
 
     var length = await pickedImage!.length();
-    String url = "http://192.168.202.199:5500/predict";
+    //Server URL
+    String url = "http://192.168.187.199:5500/predict";
 
     var uri = Uri.parse(url);
 
@@ -204,6 +209,7 @@ class _HomePageState extends State<HomePage> {
 
     request.headers.addAll({"Content-Type": "multipart/form-data"});
 
+    //Response
     var response = await request.send();
     print(response.statusCode);
     if (response.statusCode == 200) {
@@ -211,9 +217,9 @@ class _HomePageState extends State<HomePage> {
       final responseString = String.fromCharCodes(responseData);
       final responseMap = jsonDecode(responseString) as Map<String, dynamic>;
       print(responseMap);
-      // final id = responseMap['id'] as int?;
-      // print("id: $id");
-      // return id;
+      final disease = responseMap['predicted_class'];
+      // print("Disease: $disease");
+      return disease;
     } else {
       print("Failed to upload");
       return null;
