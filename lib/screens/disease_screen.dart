@@ -129,11 +129,33 @@ class _ResultScreenState extends State<ResultScreen> {
                         style: GoogleFonts.poppins(
                             color: Constant.secondaryColor, fontSize: 20),
                       )
-                    : Text(
-                        "Your plant have ${disease.toUpperCase()} disease.",
-                        // "Your plant have THIS Disease",
-                        style: GoogleFonts.poppins(
-                            color: Constant.secondaryColor, fontSize: 20),
+                    // : Text(
+                    //     "Your plant have ${disease.toUpperCase()} disease.",
+                    //     // "Your plant have THIS Disease",
+                    //     style: GoogleFonts.poppins(
+                    //         color: Constant.secondaryColor, fontSize: 20),
+                    //   ),
+                    : RichText(
+                        text: TextSpan(
+                          text: 'Your plant have ',
+                          style: GoogleFonts.poppins(
+                              color: Constant.secondaryColor, fontSize: 20),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: disease.toUpperCase(),
+                              style: GoogleFonts.poppins(
+                                color: Constant.thirdColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              text: " disease.",
+                              style: GoogleFonts.poppins(
+                                  color: Constant.secondaryColor, fontSize: 20),
+                            ),
+                          ],
+                        ),
                       ),
                 const SizedBox(
                   height: 30,
