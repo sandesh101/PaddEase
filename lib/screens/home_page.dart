@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                     ? Buttons(
                         buttonText: "Submit Image",
                         onPressed: () async {
-                          final id = await uploadImage();
+                          final int? id = await uploadImage();
                           final imagePath = pickedImage!.path;
                           print(imagePath);
                           print("Uploaded Image: $id");
@@ -128,38 +128,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  uploadImage() async {
-    // print("Hello");
-    final dynamic responseString;
-    var stream = http.ByteStream(pickedImage!.openRead());
-    stream.cast();
-
-    var length = await pickedImage!.length();
-
-    var uri = Uri.parse("https://fakestoreapi.com/products");
-
-    var request = http.MultipartRequest("POST", uri);
-
-    var multipart = http.MultipartFile("image", stream, length);
-
-    request.files.add(multipart);
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.toBytes();
-      responseString = String.fromCharCodes(responseData);
-      print("Value: $responseString");
-      return responseString;
-    } else {
-      print("Failed to upload");
-      responseString = null;
-    }
-    return responseString;
-  }
-
-  // Future<int> uploadImage() async {
-  //   int responseInt;
+  // uploadImage() async {
   //   var stream = http.ByteStream(pickedImage!.openRead());
   //   stream.cast();
 
@@ -178,12 +147,39 @@ class _HomePageState extends State<HomePage> {
   //   if (response.statusCode == 200) {
   //     final responseData = await response.stream.toBytes();
   //     final responseString = String.fromCharCodes(responseData);
-  //     responseInt = int.parse(responseString);
-  //     print("Value: $responseInt");
+  //     print("Value: $responseString");
+  //     return responseString;
   //   } else {
   //     print("Failed to upload");
-  //     responseInt = -1;
   //   }
-  //   return responseInt;
   // }
+
+  Future<int?> uploadImage() async {
+    var stream = http.ByteStream(pickedImage!.openRead());
+    stream.cast();
+
+    var length = await pickedImage!.length();
+
+    var uri = Uri.parse("https://fakestoreapi.com/products");
+
+    var request = http.MultipartRequest("POST", uri);
+
+    var multipart = http.MultipartFile("image", stream, length);
+
+    request.files.add(multipart);
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.toBytes();
+      final responseString = String.fromCharCodes(responseData);
+      final responseMap = jsonDecode(responseString) as Map<String, dynamic>;
+      final id = responseMap['id'] as int?;
+      print("id: $id");
+      return id;
+    } else {
+      print("Failed to upload");
+      return null;
+    }
+  }
 }

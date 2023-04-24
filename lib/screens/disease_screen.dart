@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paddy_disease/constants/constant.dart';
+import 'package:paddy_disease/screens/home_page.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key});
@@ -17,7 +18,7 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   // final bytes = base64Decode(image);
   late String imagePath;
-  late Future<dynamic> id;
+  late int id;
   @override
   void initState() {
     // TODO: implement initState
@@ -48,6 +49,11 @@ class _ResultScreenState extends State<ResultScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              IconButton(
+                  onPressed: () {
+                    Get.to(() => HomePage());
+                  },
+                  icon: Icon(Icons.home)),
               Container(
                 height: 300,
                 width: 300,
@@ -64,8 +70,8 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               ),
               Text(
-                // "Your plant with id = $id have THIS Disease",
-                "Your plant have THIS Disease",
+                "Your plant with id = $id have THIS Disease",
+                // "Your plant have THIS Disease",
                 style: GoogleFonts.poppins(
                     color: Constant.secondaryColor, fontSize: 20),
               ),
