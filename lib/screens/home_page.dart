@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> {
 
     var length = await pickedImage!.length();
     //Server URL
-    String url = "http://192.168.187.199:5500/predict";
+    String url = "http://192.168.171.199:5500/predict";
 
     var uri = Uri.parse(url);
 
