@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'home_page.dart';
 import '../constants/constant.dart';
-// import 'home_page_changed.dart';
+import 'home_page_changed.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,8 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: ((context) => const HomePage())));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: ((context) => const NewHomePage())));
     });
   }
 
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 100.0),
-              child: Image.asset('assets/SplashScreen.png'),
+              child: Image.asset('assets/images/SplashScreen.png'),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 25.0),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/constant.dart';
+import 'package:intl/intl.dart';
 
 // GoogleFonts.poppins(
 //                                   color: Constant.secondaryColor, fontSize: 20),
@@ -13,6 +14,22 @@ class NewHomePage extends StatefulWidget {
 }
 
 class _NewHomePageState extends State<NewHomePage> {
+  String? dateStr;
+  String? monthName;
+  @override
+  void initState() {
+    super.initState();
+    getDate();
+  }
+
+  void getDate() {
+    // DateTime today = DateTime.now();
+
+    DateTime now = DateTime.now();
+    dateStr = "${now.day}";
+    monthName = DateFormat('MMM').format(now);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,7 +70,7 @@ class _NewHomePageState extends State<NewHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Kathmandu, Apr 25",
+                        "Kathmandu, $monthName $dateStr",
                         style: GoogleFonts.poppins(
                             color: Constant.blackColor, fontSize: 20),
                       ),
