@@ -2,6 +2,7 @@ class WeatherModel {
   List<Weather>? weather;
   Main? main;
   String? name;
+  // double? temp;
 
   WeatherModel({this.weather, this.main, this.name});
 
@@ -14,6 +15,7 @@ class WeatherModel {
     }
     main = json['main'] != null ? new Main.fromJson(json['main']) : null;
     name = json['name'];
+    // temp = json["main"]["temp"];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,7 +38,7 @@ class Weather {
   Weather({this.description, this.icon});
 
   Weather.fromJson(Map<String, dynamic> json) {
-    description = json['description'];
+    description = json['main'];
     icon = json['icon'];
   }
 
