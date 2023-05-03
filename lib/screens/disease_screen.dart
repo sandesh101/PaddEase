@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:paddy_disease/constants/constant.dart';
 import 'package:paddy_disease/screens/home_page.dart';
 
+import 'home_page_changed.dart';
+
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key});
 
@@ -83,7 +85,8 @@ class _ResultScreenState extends State<ResultScreen> {
               padding: const EdgeInsets.only(left: 16.0),
               child: IconButton(
                   onPressed: () {
-                    Get.to(() => const HomePage());
+                    // print("object");
+                    Get.to(() => const NewHomePage());
                   },
                   icon: const Icon(
                     Icons.arrow_back_ios,

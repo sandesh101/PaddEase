@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paddy_disease/model/weather_model.dart';
+import 'package:paddy_disease/screens/home_page.dart';
 import 'package:paddy_disease/services/weather_api_client.dart';
 
 import '../constants/constant.dart';
@@ -172,15 +174,20 @@ class _NewHomePageState extends State<NewHomePage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 25.0, top: 50.0),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          decoration: BoxDecoration(
-                            color: Constant.primaryColor,
-                            borderRadius: BorderRadius.circular(7),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => const HomePage());
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            decoration: BoxDecoration(
+                              color: Constant.primaryColor,
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: const Image(
+                                image: AssetImage(
+                                    'assets/images/DetectDisease.png')),
                           ),
-                          child: const Image(
-                              image: AssetImage(
-                                  'assets/images/DetectDisease.png')),
                         ),
                       ),
                       Padding(
