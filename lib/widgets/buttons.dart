@@ -21,7 +21,7 @@ class _ButtonsState extends State<Buttons> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Constant.secondaryColor,
+        backgroundColor: Constant.thirdColor,
       ),
       onPressed: () {
         widget.onPressed();

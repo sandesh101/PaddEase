@@ -329,8 +329,9 @@ class _NewHomePageState extends State<NewHomePage> {
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 3,
                                             style: GoogleFonts.poppins(
-                                                color: Constant.blackColor,
-                                                fontSize: 14),
+                                              color: Constant.whiteColor,
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ],
                                       ),
