@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:paddy_disease/model/news_model.dart';
 import 'package:paddy_disease/model/weather_model.dart';
 import 'package:paddy_disease/screens/home_page.dart';
+import 'package:paddy_disease/screens/news_screen.dart';
 import 'package:paddy_disease/services/news_api_client.dart';
 import 'package:paddy_disease/services/weather_api_client.dart';
 import 'package:paddy_disease/widgets/buttons.dart';
@@ -254,7 +255,11 @@ class _NewHomePageState extends State<NewHomePage> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              Buttons(buttonText: "See All News", onPressed: () {}),
+              Buttons(
+                  buttonText: "See All News",
+                  onPressed: () {
+                    Get.to(() => const NewsScreen());
+                  }),
             ],
           ),
           const SizedBox(
