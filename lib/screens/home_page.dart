@@ -12,6 +12,8 @@ import 'package:cross_file_image/cross_file_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
+import 'home_page_changed.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -32,87 +34,123 @@ class _HomePageState extends State<HomePage> {
           elevation: 0.0,
           automaticallyImplyLeading: false,
           leading: IconButton(
-              onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
+              onPressed: () {
+                Get.to(() => const NewHomePage());
+              },
+              icon: const Icon(Icons.arrow_back_ios)),
         ),
         backgroundColor: Constant.primaryColor,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 150.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  child: isPickedImage
-                      ? Container(
-                          height: 300,
-                          width: 300,
-                          decoration: BoxDecoration(
-                            color: Constant.secondaryColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Image.file(
-                              File(pickedImage!.path).absolute,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )
-                      : Column(
-                          children: [
-                            Text(
-                              "Upload Picture of your paddy Leaf",
-                              style: GoogleFonts.poppins(
-                                  color: Constant.secondaryColor, fontSize: 20),
-                            ),
-                            Text(
-                              "or Take Photo",
-                              style: GoogleFonts.poppins(
-                                  color: Constant.secondaryColor, fontSize: 20),
-                            ),
-                          ],
+        body: Padding(
+          padding: const EdgeInsets.only(top: 150.0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: isPickedImage
+                    ? Container(
+                        height: 300,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          color: Constant.secondaryColor,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                Buttons(
-                  buttonText: "Upload Photo",
-                  onPressed: pickImage,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Buttons(
-                  buttonText: "Take Photo",
-                  onPressed: takeImage,
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                isPickedImage
-                    ? Buttons(
-                        buttonText: "Submit Image",
-                        onPressed: () async {
-                          // uploadImage();
-                          final String? diseaseName = await uploadImage();
-                          final imagePath = pickedImage!.path;
-                          // print(imagePath);
-                          // print("Uploaded Image: $id");
-                          Get.to(
-                            () => const ResultScreen(),
-                            arguments: {
-                              'image': imagePath,
-                              'predicted_class': diseaseName,
-                            },
-                          );
-                          setState(() {
-                            isPickedImage = false;
-                          });
-                        })
-                    : Container(),
-              ],
-            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Image.file(
+                            File(pickedImage!.path).absolute,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          Text(
+                            "Are you worried about your plants?",
+                            style: GoogleFonts.poppins(
+                                color: Constant.secondaryColor, fontSize: 20),
+                          ),
+                          Text(
+                            "Don't take a chance.",
+                            style: GoogleFonts.poppins(
+                                color: Constant.secondaryColor, fontSize: 20),
+                          ),
+                          Text(
+                            "Check if you doubt!!",
+                            style: GoogleFonts.poppins(
+                                color: Constant.secondaryColor, fontSize: 20),
+                          ),
+                        ],
+                      ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              // Buttons(
+              //   buttonText: "Upload Photo",
+              //   onPressed: pickImage,
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: pickImage,
+                    child: Container(
+                      height: Get.height * 0.2,
+                      width: Get.width * 0.4,
+                      decoration: BoxDecoration(
+                        color: Constant.containerColor,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Image(
+                          image: AssetImage("assets/images/UploadImage.png"),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: uploadImage,
+                    child: Container(
+                      height: Get.height * 0.2,
+                      width: Get.width * 0.4,
+                      decoration: BoxDecoration(
+                        color: Constant.containerColor,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Image(
+                          image: AssetImage("assets/images/Camera.png"),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              isPickedImage
+                  ? Buttons(
+                      buttonText: "Submit Image",
+                      onPressed: () async {
+                        // uploadImage();
+                        final String? diseaseName = await uploadImage();
+                        final imagePath = pickedImage!.path;
+                        // print(imagePath);
+                        // print("Uploaded Image: $id");
+                        Get.to(
+                          () => const ResultScreen(),
+                          arguments: {
+                            'image': imagePath,
+                            'predicted_class': diseaseName,
+                          },
+                        );
+                        setState(() {
+                          isPickedImage = false;
+                        });
+                      })
+                  : Container(),
+            ],
           ),
         ),
       ),
