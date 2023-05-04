@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.paddy_disease">
    <application
-        android:label="Paddy Disease"
+        android:label="PaddEase"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
