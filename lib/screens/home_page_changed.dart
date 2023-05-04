@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paddy_disease/model/news_model.dart';
 import 'package:paddy_disease/model/weather_model.dart';
 import 'package:paddy_disease/screens/home_page.dart';
+import 'package:paddy_disease/services/news_api_client.dart';
 import 'package:paddy_disease/services/weather_api_client.dart';
+import 'package:paddy_disease/widgets/buttons.dart';
 
 import '../constants/constant.dart';
 import 'package:intl/intl.dart';
@@ -21,21 +24,31 @@ class _NewHomePageState extends State<NewHomePage> {
   String? dateStr;
   String? monthName;
   WeatherApiClient weatherApiClient = WeatherApiClient();
+  NewsApiClient newsApiClient = NewsApiClient();
   WeatherModel? data;
+  NewsModel? newsData;
   double tempinK = 0.0;
   double? tempinC;
+  String? imgUrl = "false";
 
   @override
   void initState() {
     super.initState();
     getDate();
     // weatherApiClient.getCurrentWeather("Kathamandu");
+    getNews();
   }
 
   Future<void> getWeather() async {
     data = await weatherApiClient.getCurrentWeather("Kathmandu");
     tempinK = data!.main!.temp!;
     tempinC = (tempinK - 273.15);
+  }
+
+  Future<void> getNews() async {
+    newsData = await newsApiClient.getNews();
+
+    // print(newsData);
   }
 
   void getDate() {
@@ -230,55 +243,118 @@ class _NewHomePageState extends State<NewHomePage> {
             ),
           ),
           //Services Ends
-          Padding(
-            padding: const EdgeInsets.only(top: 15.0, left: 10.0),
-            child: Text(
-              "Trending News",
-              textAlign: TextAlign.left,
-              style: GoogleFonts.poppins(
-                  color: Constant.whiteColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                "Trending News",
+                textAlign: TextAlign.left,
+                style: GoogleFonts.poppins(
+                    color: Constant.whiteColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              Buttons(buttonText: "See All News", onPressed: () {}),
+            ],
           ),
           const SizedBox(
             height: 15,
           ),
+          //NEWS API
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                color: Constant.containerColor,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  //Weather Texts
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Cold temperatures limit",
-                        style: GoogleFonts.poppins(
-                            color: Constant.blackColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+            child: FutureBuilder(
+                future: getNews(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        color: Constant.thirdColor,
                       ),
-                      Text(
-                        "News Description",
-                        style: GoogleFonts.poppins(
-                            color: Constant.blackColor, fontSize: 20),
+                      child: const Center(
+                        child: CircularProgressIndicator(),
                       ),
-                    ],
-                  ),
-                  //Weather Icon Image
-                  const Image(image: AssetImage('assets/images/SunnyImage.png'))
-                ],
-              ),
-            ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          if (newsData!.results![index].imageUrl == null) {
+                            imgUrl =
+                                "https://cdn-icons-png.flaticon.com/512/190/190738.png?w=740&t=st=1683227526~exp=1683228126~hmac=ecea5efafa09df583579c6f60495572a3812084d8a5e860c715751bf1d191bf6";
+                          } else {
+                            imgUrl = newsData!.results![index].imageUrl;
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.15,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                color: Constant.containerColor,
+                              ),
+                              child: Row(
+                                // mainAxisAlignment:
+                                //     MainAxisAlignment.spaceAround,
+                                children: [
+                                  //Weather Texts
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${newsData!.results![index].title}",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: GoogleFonts.poppins(
+                                              color: Constant.blackColor,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${newsData!.results![index].description}",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 3,
+                                            style: GoogleFonts.poppins(
+                                                color: Constant.blackColor,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  //NEWS Image
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3.0, vertical: 8.0),
+                                    child: Image(
+                                      height: 130,
+                                      width: 150,
+                                      image: NetworkImage("$imgUrl"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                }),
           ),
         ],
       ),
