@@ -219,14 +219,20 @@ class _NewHomePageState extends State<NewHomePage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 25.0, top: 50.0),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          decoration: BoxDecoration(
-                            color: Constant.primaryColor,
-                            borderRadius: BorderRadius.circular(7),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => const NewsScreen());
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            decoration: BoxDecoration(
+                              color: Constant.primaryColor,
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: const Image(
+                                image:
+                                    AssetImage('assets/images/NewsImage.png')),
                           ),
-                          child: const Image(
-                              image: AssetImage('assets/images/NewsImage.png')),
                         ),
                       ),
                       Padding(
