@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: uploadImage,
+                    onTap: takeImage,
                     child: Container(
                       height: Get.height * 0.2,
                       width: Get.width * 0.4,
