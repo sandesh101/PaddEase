@@ -67,14 +67,15 @@ class _NewsScreenState extends State<NewsScreen> {
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: GestureDetector(
                             onTap: () async {
-                              // print("Clicked");
-                              final url = Uri.parse(
-                                  "${newsData!.results![index].link}");
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url);
-                              } else {
-                                throw 'Could not launch $url';
-                              }
+                              Uri uri = Uri.parse(
+                                  newsData!.results![index].link.toString());
+                              print("URL = $uri");
+                              // Uri uri = Uri(
+                              //   // host: "http",
+                              //   // path: newsData!.results![index].link.toString(),
+
+                              // );
+                              _launchURL(uri);
                             },
                             child: Container(
                               height: MediaQuery.of(context).size.height * 0.25,
@@ -141,5 +142,18 @@ class _NewsScreenState extends State<NewsScreen> {
         ),
       ),
     );
+  }
+
+  //Function to Launch URL
+  Future<void> _launchURL(Uri url) async {
+    try {
+      if (await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        await canLaunchUrl(url);
+      } else {
+        throw "Could not launch $url";
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

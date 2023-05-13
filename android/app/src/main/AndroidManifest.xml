@@ -4,6 +4,7 @@
         android:label="PaddEase"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
