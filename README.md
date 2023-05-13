@@ -1,16 +1,3 @@
-# paddy_disease
+# PaddEase
+_PaddEase is a mobile application that allows users to detect the diseases that are on Paddy Leaves. Users can select the existing photos from their mobile phone or they can take new one. Also they are able to view the current weather and the News of Nepal._
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
