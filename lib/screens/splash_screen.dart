@@ -39,10 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 25.0),
               child: Text(
-                "Paddy Leaf Disease Detection",
+                "PaddEase",
                 style: GoogleFonts.poppins(
                   color: Constant.secondaryColor,
-                  fontSize: 20,
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
                 ),
               ),
